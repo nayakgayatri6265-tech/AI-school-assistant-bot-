@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI School Assistant Bot</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg,#101c45,#5436a5);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    height: 90vh;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px #0005;
+}
+
+.header {
+    background: linear-gradient(120deg,#1769ff,#7928ca);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h2 {
+    margin-bottom: 6px;
+}
+
+.status {
+    font-size: 13px;
+    color: #d7ffdc;
+}
+
+.chat-box {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f3f5fb;
+}
+
+.message {
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 15px;
+    max-width: 85%;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.bot {
+    background: white;
+    color: #222;
+    border: 1px solid #ddd;
+    align-self: flex-start;
+}
+
+.user {
+    background: #1769ff;
+    color: white;
+    margin-left: auto;
+}
+
+.quick {
+    display: flex;
+    gap: 7px;
+    padding: 10px;
+    overflow-x: auto;
+}
+
+.quick button {
+    padding: 9px 12px;
+    border: 1px solid #1769ff;
+    background: white;
+    color: #1769ff;
+    border-radius: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.input-area {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    outline: none;
+}
+
+.send {
+    background: #1769ff;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.clear {
+    background: #ff4545;
+    color: white;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h2>🎓 AI School Assistant</h2>
+        <p>Your Smart Learning Partner</p>
+        <div class="status">● Online Assistant</div>
+        <button class="clear" onclick="clearChat()">
+            Clear Chat
+        </button>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="message bot">
+            👋 Hello Student!
+
+            Welcome to AI School Assistant.
+
+            I can help you with:
+            📚 School Subjects
+            ➗ Mathematics
+            🌍 General Knowledge
+            📝 Homework
+            💻 Computer Studies
+
+            Ask me anything!
+        </div>
+    </div>
+
+    <div class="quick">
+        <button onclick="quickAsk('What is AI?')">What is AI?</button>
+        <button onclick="quickAsk('Tell me a science fact')">Science</button>
+        <button onclick="quickAsk('Give me a maths question')">Maths</button>
+        <button onclick="quickAsk('Tell me a GK question')">GK</button>
+    </div>
+
+    <div class="input-area">
+        <input
+            type="text"
+            id="userInput"
+            placeholder="Ask your school question..."
+            onkeydown="if(event.key==='Enter') sendMessage()"
+        >
+        <button class="send" onclick="sendMessage()">
+            Send ➤
+        </button>
+    </div>
+
+</div>
+
+<script>
+const chatBox = document.getElementById("chatBox");
+const input = document.getElementById("userInput");
+
+function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = "message " + type;
+    div.textContent = text;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function getAnswer(question) {
+    let q = question.toLowerCase().trim();
+
+    if(q.includes("hello") || q.includes("hi")) {
+        return "Hello Student! 😊 How can I help you today?";
+    }
+
+    if(q.includes("your name")) {
+        return "I am AI School Assistant Bot, your smart learning partner!";
+    }
+
+    if(q.includes("ai")) {
+        return "AI stands for Artificial Intelligence. It is a technology that helps computers think, learn and solve problems.";
+    }
+
+    if(q.includes("math") || q.includes("plus")) {
+        return "Mathematics is the study of numbers, shapes and calculations. Send me a maths question!";
+    }
+
+    if(q.includes("science")) {
+        return "Science is the study of the natural world. Did you know? The Sun is a star!";
+    }
+
+    if(q.includes("computer")) {
+        return "A computer is an electronic machine that processes data and gives information.";
+    }
+
+    if(q.includes("india")) {
+        return "India is a country in South Asia. Its capital is New Delhi.";
+    }
+
+    if(q.includes("homework")) {
+        return "Sure! Send me your homework question. I will help you understand it.";
+    }
+
+    if(q.includes("teacher")) {
+        return "Teachers help students learn new things and develop knowledge.";
+    }
+
+    if(q.includes("english")) {
+        return "English is an international language. I can help you with grammar and vocabulary.";
+    }
+
+    if(q.includes("hindi")) {
+        return "हिंदी भारत की प्रमुख भाषाओं में से एक है। आप अपना हिंदी का सवाल पूछ सकते हैं।";
+    }
+
+    if(q.includes("gk") || q.includes("general knowledge")) {
+        return "GK Question: What is the capital of India? Answer: New Delhi.";
+    }
+
+    if(q.includes("thank")) {
+        return "You're welcome! 😊 Keep learning and keep growing!";
+    }
+
+    return "Good question! 😊 I am a demo school assistant. For this question, please add an AI API to connect a real AI model.";
+}
+
+function sendMessage() {
+    let question = input.value.trim();
+
+    if(question === "") return;
+
+    addMessage(question, "user");
+    input.value = "";
+
+    setTimeout(() => {
+        let answer = getAnswer(question);
+        addMessage(answer, "bot");
+    }, 500);
+}
+
+function quickAsk(question) {
+    input.value = question;
+    sendMessage();
+}
+
+function clearChat() {
+    chatBox.innerHTML = "";
+    addMessage("Hello Student! 👋 Welcome back. Ask me anything about your studies.", "bot");
+}
+</script>
+
+</body>
+  </html>
+  

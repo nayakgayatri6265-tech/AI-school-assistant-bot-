@@ -1,1 +1,0 @@
-# AI-school-assistant-bot-
